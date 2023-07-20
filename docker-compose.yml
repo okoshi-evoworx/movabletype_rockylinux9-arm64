@@ -1,0 +1,63 @@
+version: '3'
+
+services:
+  web:
+    build:
+      context: ./conf/apache
+    volumes:
+      - "./data/file/error:/data/file/error"
+      - "./www:/var/www"
+      - "./conf/apache/httpd.conf:/etc/httpd/conf/httpd.conf"
+      - "./conf/apache/vhost.conf:/etc/httpd/conf.d/vhost.conf"
+      - "./conf/apache/php.ini:/etc/php.ini"
+    ports:
+      - ${APACHE_PORT}:80
+    links:
+      - "db:db"
+      - "mt:mt"
+
+  mt:
+    build:
+      context: ./conf/mt
+    volumes:
+      - "./data/file/error:/data/file/error"
+      - "./www:/var/www"
+    restart: always
+    links:
+      - "db:db"
+    env_file:
+      - .env
+
+  db:
+    platform: linux/arm64/v8
+    image: mariadb:10.3
+    command: --character-set-server=utf8 --collation-server=utf8_general_ci --sql-mode=''
+    volumes:
+      - "./lib/mysql:/var/lib/mysql"
+      - "./conf/mysql/my.cnf:/etc/mysql/conf.d/my.cnf"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ${DB_NAME}
+
+  phpmyadmin:
+    platform: linux/arm64/v8
+    image: phpmyadmin:latest
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=db
+      - PMA_USER=root
+      - PMA_PASSWORD=root
+      - UPLOAD_LIMIT=1G
+    links:
+      - db
+    ports:
+      - ${PMA_PORT}:80
+    volumes:
+      - "./lib/sessions:/sessions"
+
+  smtp:
+    platform: linux/arm64
+    image: dockage/mailcatcher:latest
+    ports:
+      - ${MAIL_PORT}:1080
