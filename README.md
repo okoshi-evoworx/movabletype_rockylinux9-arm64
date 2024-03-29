@@ -1,6 +1,6 @@
 # MovableType Docker(Rocky Linux 9 / arm64)
 - [rockylinux:9.2(linux/arm64/v8)](https://hub.docker.com/layers/library/rockylinux/9.2.20230513-minimal/images/sha256-8a14a313d4a6c3963c498de541415e0c2a122241e87f6835ae6a2511f858a916?context=explore)
-- [mariadb:10.3(linux/arm64/v8)](https://hub.docker.com/layers/library/mariadb/10.3/images/sha256-d162a04f42d4281b08047ca6e1a204062d348537a621d12a734b68d64ecf2919?context=explore)
+- [mariadb:10.5(linux/arm64)](https://hub.docker.com/layers/library/mariadb/10.5/images/sha256-dd11770ffa33e30f3912560989c686e23bff69fb01bebcfd427b512374207e69?context=explore)
 - [phpmyadmin:latest(linux/arm64/v8)](https://hub.docker.com/layers/library/phpmyadmin/latest/images/sha256-8c4760de2c17a8fb5c18cfa857d9749e5907570ecd977a73265a37a54fad0bd2?context=explore)
 - [dockage/mailcatcher(linux/arm64)](https://hub.docker.com/layers/dockage/mailcatcher/latest/images/sha256-dace8abb9505079eaaf8b48bc121552c2c75dc3b9a090919f7fa2fc48caf31b1?context=explore)
 
@@ -35,8 +35,8 @@
 │   ├─ html/（ルートディレクトリ）
 │   ├─ import/（MovableType サイトのインポートで使用）
 │   ├─ mt-static/
-│   │   ├─ plugins/（MTプラグインで使用する静的ファイルを格納します）
-│   │   └─ supports/（テーマのサムネイル格納等に使用します）
+│   │   └─ plugins/（プラグイン用staticファイル）
+│   ├─ mt-support/（サポートファイル：テーマのサムネイル格納等に使用します）
 │   │─ plugins/（MTプラグイン格納ディレクトリ）
 │   │─ search_templates/（検索用テンプレート）
 │   └─ themes/
@@ -47,10 +47,11 @@
 └─ README.md
 ```
 
-
 ## Docker
 ### 構築
-`www/cgi-bin/mt` に Movable Typeの本体ファイルを配置したら下記を実行してください。
+`www/cgi-bin/mt` に Movable Typeの本体ファイルを配置したら下記を実行してください。  
+PSGI内で`/mt-static/` のファイルを読み込めるようになったので、ディレクトリの移動は不要です。  
+※追加したプラグインのstaticファイルのバージョン管理のために `/mt-static/plugins/` 配下のみ独立させています。初回実行時にデフォルトでインストールされているプラグイン（8.0.3時点）の静的ファイルはシンボリックリンクが作成され、`/cgi-bin/mt/mt-static/` 配下の該当ファイルを読み込むようになります。
 
 ```zsh
 docker compose build
@@ -79,7 +80,7 @@ docker compose down
 
 
 ## Git
-MT起動時にファイルパーミッションが変わり、ファイルの変更していないのに差分として認識される場合があります（Diffの内容は空）。  
+MT起動時にファイルパーミッションが変わり、ファイルの変更していないのに差分として認識される場合があります（Diffの内容がない状態）。  
 その場合は下記コマンドでGitでパーミッションの変更を無視する設定にしてください。
 
 ```zsh

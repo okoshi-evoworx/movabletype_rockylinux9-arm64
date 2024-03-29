@@ -7,24 +7,32 @@ www/html/*
 
 # Movable Type
 www/cgi-bin/mt/
-www/mt-static/support/dashboard/
 
-www/mt-static/support/theme_thumbnails/classic_blog
-www/mt-static/support/theme_thumbnails/classic_website
-www/mt-static/support/theme_thumbnails/eiger
-www/mt-static/support/theme_thumbnails/mont-blanc
-www/mt-static/support/theme_thumbnails/professional_blog
-www/mt-static/support/theme_thumbnails/professional_website
-www/mt-static/support/theme_thumbnails/rainier
+www/mt-support/dashboard/
+www/mt-support/theme_thumbnails/classic_blog
+www/mt-support/theme_thumbnails/classic_website
+www/mt-support/theme_thumbnails/eiger
+www/mt-support/theme_thumbnails/mont-blanc
+www/mt-support/theme_thumbnails/professional_blog
+www/mt-support/theme_thumbnails/professional_website
+www/mt-support/theme_thumbnails/rainier
+www/mt-support/theme_static/classic_blog
+www/mt-support/theme_static/classic_website
+www/mt-support/theme_static/eiger
+www/mt-support/theme_static/mont-blanc
+www/mt-support/theme_static/professional_blog
+www/mt-support/theme_static/professional_website
+www/mt-support/theme_static/rainier
 
 ## Default Plugin Static files
 www/mt-static/plugins/BlockEditor
-www/mt-static/plugins/FacebookCommenters
 www/mt-static/plugins/FormattedTextForTinyMCE
 www/mt-static/plugins/FormattedTextForTinyMCE5
 www/mt-static/plugins/FormattedTextForTinyMCE6
-www/mt-static/plugins/OpenID
-www/mt-static/plugins/TinyMCE
+www/mt-static/plugins/MFA
+www/mt-static/plugins/MFA-TOTP
+www/mt-static/plugins/MTBlockEditor
+www/mt-static/plugins/SharedPreview
 www/mt-static/plugins/TinyMCE5
 www/mt-static/plugins/TinyMCE6
 

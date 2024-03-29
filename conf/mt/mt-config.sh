@@ -18,7 +18,7 @@ cat > /var/www/cgi-bin/mt/mt-config.cgi << EOF
 
 #======== REQUIRED SETTINGS ==========
 CGIPath        /cgi-bin/mt/
-StaticWebPath  /mt-static/
+StaticWebPath  /cgi-bin/mt/mt-static/
 StaticFilePath /var/www/cgi-bin/mt/mt-static
 
 #======== DATABASE SETTINGS ==========
@@ -54,7 +54,7 @@ PIDFilePath /var/run/mt.pid
 #======== THEME =======================
 ThemesDirectory /var/www/themes
 ThemesDirectory themes
-ThemeStaticFileExtensions jpg jpeg gif png webp svg js json css ico html otf ttf woff woff2
+ThemeStaticFileExtensions html jpg jpeg gif png webp svg ico js json css map otf ttf woff woff2
 
 #======== PLUGIN =======================
 PluginPath plugins
@@ -65,8 +65,8 @@ SearchTemplatePath search_templates
 SearchTemplatePath /var/www/search_templates
 
 #======== SUPPORT =======================
-SupportDirectoryPath /var/www/mt-static/support
-SupportDirectoryURL /mt-static/support/
+SupportDirectoryPath /var/www/mt-support
+SupportDirectoryURL /mt-support/
 
 #======== ALTERNATE TEMPLATE =======================
 AltTemplatePath alt-tmpl
@@ -76,8 +76,9 @@ AltTemplatePath /var/www/alt-tmpl
 DebugMode 0
 SearchAlwaysAllowTemplateID 1
 
-#======== FILESIZE =======================
+#======== UPLOAD =======================
 CGIMaxUpload 512000000
+DeniedAssetFileExtensions ascx,asis,asp,aspx,bat,cfc,cfm,cgi,cmd,com,cpl,dll,exe,htaccess,htm,html,inc,jhtml,js,jsb,jsp,mht,mhtml,msi,php,php2,php3,php4,php5,phps,phtm,phtml,pif,pl,pwml,py,reg,scr,sh,shtm,shtml,vbs,vxd,pm,so,rb,htc
 
 #======== IMPORT =======================
 ImportPath /var/www/import
@@ -92,13 +93,14 @@ chmod -R 777 /data/file/error && chown apache:apache /data/file/error
 chmod +x /var/www/cgi-bin/mt/tools/run-periodic-tasks
 
 # 初期インストールプラグインのstaticファイルにシンボリックリンク作成
+ln -snf /var/www/cgi-bin/mt/mt-static/plugins/BlockEditor /var/www/mt-static/plugins/BlockEditor
 ln -snf /var/www/cgi-bin/mt/mt-static/plugins/FormattedTextForTinyMCE /var/www/mt-static/plugins/FormattedTextForTinyMCE
 ln -snf /var/www/cgi-bin/mt/mt-static/plugins/FormattedTextForTinyMCE5 /var/www/mt-static/plugins/FormattedTextForTinyMCE5
 ln -snf /var/www/cgi-bin/mt/mt-static/plugins/FormattedTextForTinyMCE6 /var/www/mt-static/plugins/FormattedTextForTinyMCE6
-ln -snf /var/www/cgi-bin/mt/mt-static/plugins/BlockEditor /var/www/mt-static/plugins/BlockEditor
-ln -snf /var/www/cgi-bin/mt/mt-static/plugins/FacebookCommenters /var/www/mt-static/plugins/FacebookCommenters
-ln -snf /var/www/cgi-bin/mt/mt-static/plugins/OpenID /var/www/mt-static/plugins/OpenID
-ln -snf /var/www/cgi-bin/mt/mt-static/plugins/TinyMCE /var/www/mt-static/plugins/TinyMCE
+ln -snf /var/www/cgi-bin/mt/mt-static/plugins/MFA /var/www/mt-static/plugins/MFA
+ln -snf /var/www/cgi-bin/mt/mt-static/plugins/MFA-TOTP /var/www/mt-static/plugins/MFA-TOTP
+ln -snf /var/www/cgi-bin/mt/mt-static/plugins/MTBlockEditor /var/www/mt-static/plugins/MTBlockEditor
+ln -snf /var/www/cgi-bin/mt/mt-static/plugins/SharedPreview /var/www/mt-static/plugins/SharedPreview
 ln -snf /var/www/cgi-bin/mt/mt-static/plugins/TinyMCE5 /var/www/mt-static/plugins/TinyMCE5
 ln -snf /var/www/cgi-bin/mt/mt-static/plugins/TinyMCE6 /var/www/mt-static/plugins/TinyMCE6
 
